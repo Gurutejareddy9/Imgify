@@ -10,10 +10,10 @@ export function formatFileSize(bytes) {
 }
 
 export function validateImageFile(file, maxSize = 50 * 1024 * 1024) {
-    const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/bmp'];
+    const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/bmp', 'application/pdf'];
 
     if (!validTypes.includes(file.type)) {
-        return { valid: false, error: 'Invalid file type. Supported formats: JPG, PNG, GIF, WEBP, BMP' };
+        return { valid: false, error: 'Invalid file type. Supported formats: JPG, PNG, GIF, WEBP, BMP, PDF' };
     }
 
     if (file.size > maxSize) {

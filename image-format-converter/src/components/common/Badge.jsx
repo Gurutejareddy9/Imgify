@@ -2,12 +2,12 @@ import React from 'react';
 
 const Badge = ({ children, variant = 'primary', className = '' }) => {
     const variants = {
-        primary: "bg-primary-100 text-primary-700",
-        secondary: "bg-secondary-100 text-secondary-700",
-        success: "bg-success-100 text-success-700",
-        error: "bg-error-100 text-error-700",
-        warning: "bg-warning-100 text-warning-700",
-        gray: "bg-gray-100 text-gray-700"
+        primary: "bg-black text-white",
+        secondary: "bg-gray-100 text-gray-800",
+        success: "bg-black text-white",
+        error: "bg-gray-200 text-gray-900",
+        warning: "bg-gray-100 text-gray-800",
+        gray: "bg-gray-50 text-gray-600"
     };
 
     return (

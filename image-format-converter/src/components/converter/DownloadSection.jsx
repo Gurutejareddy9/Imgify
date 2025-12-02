@@ -13,7 +13,7 @@ const DownloadSection = ({
     if (completedCount === 0) return null;
 
     return (
-        <Card className="bg-gradient-to-br from-gray-50 to-white border border-gray-100">
+        <Card className="bg-gray-50 border border-gray-200">
             <div className="flex flex-col md:flex-row items-center justify-between gap-6">
                 <div>
                     <h3 className="text-xl font-bold text-gray-900 mb-2">Conversion Complete!</h3>

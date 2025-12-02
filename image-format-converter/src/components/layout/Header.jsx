@@ -11,10 +11,10 @@ const Header = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center h-16">
                     <Link to="/" className="flex items-center space-x-2">
-                        <div className="bg-gradient-to-r from-primary-500 to-secondary-500 p-2 rounded-lg">
-                            <Image className="w-6 h-6 text-white" />
+                        <div className="p-2 rounded-lg">
+                            <Image className="w-6 h-6 text-gray-600" />
                         </div>
-                        <span className="text-xl font-bold bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">
+                        <span className="text-xl font-bold text-black">
                             ImageConverter
                         </span>
                     </Link>
@@ -25,8 +25,9 @@ const Header = () => {
                     </nav>
 
                     {/* Mobile Menu Button */}
+                    {/* Mobile Menu Button */}
                     <button
-                        className="md:hidden p-2 rounded-md text-gray-600 hover:text-primary-600 hover:bg-gray-100"
+                        className="md:hidden p-2 rounded-md text-gray-700 hover:text-black hover:bg-gray-100"
                         onClick={() => setIsMenuOpen(!isMenuOpen)}
                     >
                         {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
