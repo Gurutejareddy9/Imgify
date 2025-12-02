@@ -5,6 +5,8 @@ import Footer from './components/layout/Footer';
 import Home from './pages/Home';
 import Converter from './pages/Converter';
 
+import Compress from './pages/Compress';
+
 function App() {
   return (
     <Router>
@@ -14,6 +16,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/converter" element={<Converter />} />
+            <Route path="/compress" element={<Compress />} />
           </Routes>
         </main>
         <Footer />

@@ -6,7 +6,8 @@ const Navigation = ({ mobile = false, onItemClick }) => {
 
     const links = [
         { name: 'Home', path: '/' },
-        { name: 'Converter', path: '/converter' }
+        { name: 'Converter', path: '/converter' },
+        { name: 'Compress', path: '/compress' }
     ];
 
     const baseStyles = mobile
@@ -18,8 +19,8 @@ const Navigation = ({ mobile = false, onItemClick }) => {
             {links.map(link => {
                 const isActive = location.pathname === link.path;
                 const activeStyles = isActive
-                    ? (mobile ? "bg-primary-50 text-primary-600" : "text-primary-600")
-                    : (mobile ? "text-gray-700 hover:bg-gray-50 hover:text-primary-600" : "text-gray-500 hover:text-primary-600");
+                    ? (mobile ? "bg-gray-100 text-black font-semibold" : "text-black border-b-2 border-black pb-1")
+                    : (mobile ? "text-gray-700 hover:bg-gray-50 hover:text-black" : "text-gray-700 hover:text-black");
 
                 return (
                     <Link

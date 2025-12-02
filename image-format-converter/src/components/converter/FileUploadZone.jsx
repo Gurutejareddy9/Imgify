@@ -23,7 +23,8 @@ const FileUploadZone = ({
             'image/png': [],
             'image/gif': [],
             'image/webp': [],
-            'image/bmp': []
+            'image/bmp': [],
+            'application/pdf': ['.pdf']
         },
         maxFiles: maxFiles,
         maxSize: 50 * 1024 * 1024 // 50MB
@@ -35,14 +36,14 @@ const FileUploadZone = ({
                 {...getRootProps()}
                 className={`
           relative border-2 border-dashed rounded-2xl p-8 transition-all duration-200 min-h-[320px] flex flex-col items-center justify-center cursor-pointer
-          ${isDragActive && !isDragReject ? 'border-primary-500 bg-primary-50 scale-[1.01]' : 'border-primary-200 bg-primary-50/30 hover:border-primary-400'}
-          ${isDragReject ? 'border-error-500 bg-error-50' : ''}
+          ${isDragActive && !isDragReject ? 'border-black bg-gray-200 scale-[1.01]' : 'border-gray-300 bg-gray-50 hover:border-gray-500 hover:bg-gray-100'}
+          ${isDragReject ? 'border-gray-400 bg-gray-100' : ''}
         `}
             >
                 <input {...getInputProps()} />
 
                 <div className="bg-white p-4 rounded-full shadow-sm mb-4">
-                    <Upload className={`w-12 h-12 ${isDragActive ? 'text-primary-600' : 'text-primary-400'}`} />
+                    <Upload className={`w-12 h-12 ${isDragActive ? 'text-black' : 'text-gray-400'}`} />
                 </div>
 
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">
@@ -53,20 +54,20 @@ const FileUploadZone = ({
                 </p>
 
                 <div className="flex flex-wrap gap-2 justify-center">
-                    {['JPG', 'PNG', 'GIF', 'WEBP', 'BMP'].map(fmt => (
-                        <Badge key={fmt} variant="secondary">{fmt}</Badge>
+                    {['JPG', 'PNG', 'GIF', 'WEBP', 'BMP', 'PDF'].map(fmt => (
+                        <span key={fmt} className="px-3 py-1 rounded-full text-sm font-medium bg-gray-200 text-gray-700">{fmt}</span>
                     ))}
                 </div>
             </div>
 
             {/* Error Toast Area */}
             {errors.length > 0 && (
-                <div className="bg-error-50 border border-error-200 rounded-lg p-4 animate-fade-in">
+                <div className="bg-gray-100 border border-gray-300 rounded-lg p-4 animate-fade-in">
                     <div className="flex items-start">
-                        <AlertCircle className="w-5 h-5 text-error-500 mt-0.5 mr-3" />
+                        <AlertCircle className="w-5 h-5 text-gray-600 mt-0.5 mr-3" />
                         <div>
-                            <h4 className="text-sm font-medium text-error-800">Upload Errors</h4>
-                            <ul className="mt-1 text-sm text-error-700 list-disc list-inside">
+                            <h4 className="text-sm font-medium text-gray-900">Upload Errors</h4>
+                            <ul className="mt-1 text-sm text-gray-700 list-disc list-inside">
                                 {errors.map((err, idx) => (
                                     <li key={idx}>{err.file}: {err.error}</li>
                                 ))}
@@ -80,7 +81,7 @@ const FileUploadZone = ({
             {uploadedFiles.length > 0 && (
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 animate-fade-in">
                     {uploadedFiles.map((file) => (
-                        <div key={file.id} className="group relative bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-all">
+                        <div key={file.id} className="group relative bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md hover:border-gray-300 transition-all">
                             <div className="aspect-square relative bg-gray-100">
                                 <img
                                     src={file.preview}
@@ -90,13 +91,13 @@ const FileUploadZone = ({
                                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
                                 <button
                                     onClick={(e) => { e.stopPropagation(); onFileRemove(file.id); }}
-                                    className="absolute top-2 right-2 p-1.5 bg-white/90 rounded-full shadow-sm opacity-0 group-hover:opacity-100 hover:bg-error-50 hover:text-error-600 transition-all"
+                                    className="absolute top-2 right-2 p-1.5 bg-gray-800 text-white rounded-full shadow-sm opacity-0 group-hover:opacity-100 hover:bg-black transition-all"
                                 >
                                     <X className="w-4 h-4" />
                                 </button>
-                                <Badge variant="primary" className="absolute bottom-2 right-2 shadow-sm">
+                                <span className="absolute bottom-2 right-2 px-2 py-1 bg-black text-white text-xs font-bold rounded shadow-sm">
                                     {file.file.type.split('/')[1].toUpperCase()}
-                                </Badge>
+                                </span>
                             </div>
                             <div className="p-3">
                                 <p className="text-sm font-medium text-gray-900 truncate" title={file.file.name}>

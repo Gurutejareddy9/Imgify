@@ -44,12 +44,12 @@ const Converter = () => {
                         <div key={s} className="flex items-center">
                             <div className={`
                 w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg transition-colors
-                ${step >= s ? 'bg-primary-600 text-white' : 'bg-gray-200 text-gray-500'}
+                ${step >= s ? 'bg-black text-white' : 'bg-gray-300 text-gray-400'}
               `}>
                                 {s}
                             </div>
                             {s < 3 && (
-                                <div className={`w-16 h-1 bg-gray-200 ml-4 ${step > s ? 'bg-primary-600' : ''}`} />
+                                <div className={`w-16 h-1 bg-gray-200 ml-4 ${step > s ? 'bg-black' : ''}`} />
                             )}
                         </div>
                     ))}
@@ -126,7 +126,7 @@ const Converter = () => {
                     {isProcessing && (
                         <div className="w-full bg-gray-200 rounded-full h-2.5 mb-6">
                             <div
-                                className="bg-primary-600 h-2.5 rounded-full transition-all duration-300"
+                                className="bg-black h-2.5 rounded-full transition-all duration-300"
                                 style={{ width: `${progress}%` }}
                             ></div>
                         </div>

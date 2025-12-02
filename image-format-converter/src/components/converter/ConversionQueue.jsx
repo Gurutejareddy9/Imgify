@@ -20,10 +20,10 @@ const ConversionQueue = ({ queue, onRemove, onRetry, onDownload }) => {
                             <div className="flex items-center space-x-4 flex-1 min-w-0">
                                 {/* Status Icon */}
                                 <div className="flex-shrink-0">
-                                    {item.status === 'queued' && <Clock className="w-5 h-5 text-gray-400" />}
-                                    {item.status === 'processing' && <Loader2 className="w-5 h-5 text-blue-500 animate-spin" />}
-                                    {item.status === 'complete' && <Check className="w-5 h-5 text-green-500" />}
-                                    {item.status === 'error' && <AlertCircle className="w-5 h-5 text-error-500" />}
+                                    {item.status === 'queued' && <Clock className="w-5 h-5 text-gray-600" />}
+                                    {item.status === 'processing' && <Loader2 className="w-5 h-5 text-black animate-spin" />}
+                                    {item.status === 'complete' && <Check className="w-5 h-5 text-black" />}
+                                    {item.status === 'error' && <AlertCircle className="w-5 h-5 text-gray-500" />}
                                 </div>
 
                                 <div className="flex-1 min-w-0">
@@ -44,7 +44,7 @@ const ConversionQueue = ({ queue, onRemove, onRetry, onDownload }) => {
                                 {item.status === 'complete' && (
                                     <button
                                         onClick={() => onDownload(item.sourceId)}
-                                        className="p-2 text-gray-400 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
+                                        className="p-2 text-gray-600 hover:text-black hover:bg-gray-100 rounded-lg transition-colors"
                                         title="Download"
                                     >
                                         <Download className="w-4 h-4" />
@@ -53,7 +53,7 @@ const ConversionQueue = ({ queue, onRemove, onRetry, onDownload }) => {
                                 {item.status === 'error' && (
                                     <button
                                         onClick={() => onRetry(item.sourceId)}
-                                        className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                                        className="p-2 text-gray-600 hover:text-black hover:bg-gray-100 rounded-lg transition-colors"
                                         title="Retry"
                                     >
                                         <RotateCcw className="w-4 h-4" />
@@ -61,7 +61,7 @@ const ConversionQueue = ({ queue, onRemove, onRetry, onDownload }) => {
                                 )}
                                 <button
                                     onClick={() => onRemove(item.sourceId)}
-                                    className="p-2 text-gray-400 hover:text-error-600 hover:bg-error-50 rounded-lg transition-colors opacity-0 group-hover:opacity-100"
+                                    className="p-2 text-gray-400 hover:text-black hover:bg-gray-100 rounded-lg transition-colors opacity-0 group-hover:opacity-100"
                                     title="Remove"
                                 >
                                     <Trash2 className="w-4 h-4" />

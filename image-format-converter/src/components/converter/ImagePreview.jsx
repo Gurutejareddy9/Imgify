@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { ZoomIn, ZoomOut, Move } from 'lucide-react';
+import { ZoomIn, ZoomOut, Move, FileText } from 'lucide-react';
 import { formatFileSize } from '../../utils/fileHelpers';
 import Badge from '../common/Badge';
 
@@ -74,24 +74,42 @@ const ImagePreview = ({ originalFile, convertedFile }) => {
                         style={{ transform: `scale(${zoom / 100})` }}
                     >
                         {/* Original Image (Left/Bottom) */}
-                        <img
-                            src={originalUrl}
-                            alt="Original"
-                            className="absolute max-w-none h-full object-contain"
-                            style={{ width: '100%' }}
-                        />
+                        {originalFile.file.type === 'application/pdf' ? (
+                            <div className="absolute inset-0 flex items-center justify-center bg-gray-50">
+                                <div className="text-center">
+                                    <FileText className="w-16 h-16 text-gray-400 mx-auto mb-2" />
+                                    <p className="text-sm font-medium text-gray-700">PDF Document</p>
+                                </div>
+                            </div>
+                        ) : (
+                            <img
+                                src={originalUrl}
+                                alt="Original"
+                                className="absolute max-w-none h-full object-contain"
+                                style={{ width: '100%' }}
+                            />
+                        )}
 
                         {/* Converted Image (Right/Top - Clipped) */}
                         <div
                             className="absolute inset-0 overflow-hidden"
                             style={{ clipPath: `polygon(${sliderPosition}% 0, 100% 0, 100% 100%, ${sliderPosition}% 100%)` }}
                         >
-                            <img
-                                src={convertedUrl}
-                                alt="Converted"
-                                className="absolute max-w-none h-full object-contain"
-                                style={{ width: '100%' }}
-                            />
+                            {convertedFile && (convertedFile.extension === 'pdf' || convertedFile.blob?.type === 'application/pdf') ? (
+                                <div className="absolute inset-0 flex items-center justify-center bg-gray-50">
+                                    <div className="text-center">
+                                        <FileText className="w-16 h-16 text-gray-400 mx-auto mb-2" />
+                                        <p className="text-sm font-medium text-gray-700">PDF Document</p>
+                                    </div>
+                                </div>
+                            ) : (
+                                <img
+                                    src={convertedUrl}
+                                    alt="Converted"
+                                    className="absolute max-w-none h-full object-contain"
+                                    style={{ width: '100%' }}
+                                />
+                            )}
                         </div>
                     </div>
                 </div>
@@ -102,7 +120,7 @@ const ImagePreview = ({ originalFile, convertedFile }) => {
                     style={{ left: `${sliderPosition}%` }}
                 >
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-white rounded-full shadow-md flex items-center justify-center">
-                        <Move className="w-4 h-4 text-primary-600" />
+                        <Move className="w-4 h-4 text-black" />
                     </div>
                 </div>
 
@@ -118,17 +136,17 @@ const ImagePreview = ({ originalFile, convertedFile }) => {
             {/* Stats */}
             {convertedFile && (
                 <div className="grid grid-cols-2 gap-4">
-                    <div className="p-4 bg-gray-50 rounded-lg">
+                    <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
                         <p className="text-xs text-gray-500 mb-1">Original Size</p>
                         <p className="font-semibold text-gray-900">{formatFileSize(originalFile.file.size)}</p>
                     </div>
-                    <div className="p-4 bg-primary-50 rounded-lg border border-primary-100">
-                        <p className="text-xs text-primary-600 mb-1">Converted Size</p>
+                    <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                        <p className="text-xs text-gray-600 mb-1">Converted Size</p>
                         <div className="flex items-center space-x-2">
-                            <p className="font-semibold text-primary-900">{formatFileSize(convertedFile.size)}</p>
-                            <Badge variant={isSmaller ? 'success' : 'warning'}>
+                            <p className="font-semibold text-black">{formatFileSize(convertedFile.size)}</p>
+                            <span className={`px-2 py-0.5 rounded text-xs font-medium ${isSmaller ? 'bg-gray-100 text-gray-900' : 'bg-gray-50 text-gray-600'}`}>
                                 {isSmaller ? '↓' : '↑'} {Math.abs(sizeDiff).toFixed(1)}%
-                            </Badge>
+                            </span>
                         </div>
                     </div>
                 </div>

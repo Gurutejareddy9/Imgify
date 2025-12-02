@@ -7,14 +7,38 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: { 500: '#667eea', 600: '#5568d3', 700: '#4c51bf' },
-        secondary: { 500: '#764ba2', 600: '#68409a', 700: '#5a3689' },
-        success: { 500: '#10b981', 600: '#059669' },
-        error: { 500: '#ef4444', 600: '#dc2626' },
-        warning: { 500: '#f59e0b', 600: '#d97706' },
+        // Pure colors
+        black: '#000000',
+        white: '#FFFFFF',
+
+        // Gray scale (comprehensive)
+        gray: {
+          50: '#F9FAFB',   // Lightest gray (backgrounds)
+          100: '#F3F4F6',  // Very light gray
+          200: '#E5E7EB',  // Light gray (borders)
+          300: '#D1D5DB',  // Medium-light gray
+          400: '#9CA3AF',  // Medium gray
+          500: '#6B7280',  // True gray (text secondary)
+          600: '#4B5563',  // Medium-dark gray
+          700: '#374151',  // Dark gray (text primary)
+          800: '#1F2937',  // Very dark gray
+          900: '#111827',  // Almost black
+        },
       },
+
+      // Remove all gradient definitions
       backgroundImage: {
-        'gradient-primary': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        'gradient-primary': 'linear-gradient(135deg, #111827 0%, #000000 100%)',
+        'gradient-light': 'linear-gradient(135deg, #F9FAFB 0%, #FFFFFF 100%)',
+      },
+
+      // Shadows with gray tones
+      boxShadow: {
+        'sm': '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+        'DEFAULT': '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
+        'md': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+        'lg': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+        'xl': '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
       },
       screens: {
         'sm': '640px',

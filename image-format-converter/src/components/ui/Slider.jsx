@@ -13,7 +13,7 @@ const Slider = ({ label, value, min, max, onChange, className = '' }) => {
                 max={max}
                 value={value}
                 onChange={(e) => onChange(Number(e.target.value))}
-                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary-600"
+                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-black"
             />
         </div>
     );

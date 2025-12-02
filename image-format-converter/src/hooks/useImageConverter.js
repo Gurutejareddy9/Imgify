@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { convertImage } from '../utils/imageConverter';
+import { convertImage, convertBatchToPDF } from '../utils/imageConverter';
 import { downloadFile, createZIP, generateFilename } from '../utils/fileHelpers';
 
 export function useImageConverter() {
@@ -12,7 +12,12 @@ export function useImageConverter() {
         preserveTransparency: true,
         lossless: false,
         dithering: 'none',
-        bitDepth: 24
+        bitDepth: 24,
+        // PDF defaults
+        pageSize: 'a4',
+        orientation: 'portrait',
+        fitToPage: true,
+        multiPage: false
     });
     const [conversionQueue, setConversionQueue] = useState([]);
     const [isProcessing, setIsProcessing] = useState(false);
@@ -45,6 +50,45 @@ export function useImageConverter() {
     const convertAllFiles = async () => {
         setIsProcessing(true);
         setProgress(0);
+
+        // Special handling for PDF multi-page
+        if (targetFormat === 'pdf' && settings.multiPage && files.length > 1) {
+            try {
+                // Initialize queue items
+                const newQueueItems = files.map(f => ({
+                    sourceId: f.id,
+                    status: 'processing',
+                    originalName: f.file.name,
+                    originalSize: f.file.size
+                }));
+                setConversionQueue(newQueueItems);
+
+                const results = await convertBatchToPDF(files.map(f => f.file), settings);
+                const result = results[0]; // Single result for multi-page
+
+                // Update all items to complete, pointing to the same result
+                setConversionQueue(files.map(f => ({
+                    sourceId: f.id,
+                    status: 'complete',
+                    originalName: f.file.name,
+                    originalSize: f.file.size,
+                    result: result, // Same result for all
+                    convertedSize: result.size / files.length // Approximate share
+                })));
+                setProgress(100);
+            } catch (error) {
+                console.error('Batch PDF conversion error:', error);
+                setConversionQueue(files.map(f => ({
+                    sourceId: f.id,
+                    status: 'error',
+                    originalName: f.file.name,
+                    originalSize: f.file.size,
+                    error: error.message
+                })));
+            }
+            setIsProcessing(false);
+            return;
+        }
 
         // Initialize queue items if not present
         const newQueueItems = files

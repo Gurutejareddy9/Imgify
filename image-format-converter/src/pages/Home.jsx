@@ -8,10 +8,9 @@ const Home = () => {
         <div className="space-y-20 pb-20">
             {/* Hero Section */}
             <section className="relative overflow-hidden pt-20 pb-16 md:pt-32 md:pb-24">
-                <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary-100/50 via-transparent to-transparent"></div>
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                    <h1 className="text-4xl md:text-6xl font-bold text-gray-900 tracking-tight mb-6">
-                        Convert Images to <span className="gradient-text">Any Format</span>
+                    <h1 className="text-4xl md:text-6xl font-bold text-black tracking-tight mb-6">
+                        Convert Images to <span className="text-gray-600">Any Format</span>
                     </h1>
                     <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-10">
                         Fast, free, and secure image format conversion in your browser. No uploads, no limits, just pure performance.
@@ -33,12 +32,12 @@ const Home = () => {
                         { icon: Shield, title: 'Privacy First', desc: 'All processing happens locally. Your files never leave your device.' },
                         { icon: Image, title: 'High Quality', desc: 'Advanced compression algorithms to preserve detail.' }
                     ].map((feature, idx) => (
-                        <div key={idx} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-                            <div className="w-12 h-12 bg-primary-50 rounded-xl flex items-center justify-center mb-4">
-                                <feature.icon className="w-6 h-6 text-primary-600" />
+                        <div key={idx} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
+                            <div className="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center mb-4">
+                                <feature.icon className="w-6 h-6 text-gray-700" />
                             </div>
                             <h3 className="text-xl font-semibold text-gray-900 mb-2">{feature.title}</h3>
-                            <p className="text-gray-500">{feature.desc}</p>
+                            <p className="text-gray-600">{feature.desc}</p>
                         </div>
                     ))}
                 </div>
@@ -55,8 +54,10 @@ const Home = () => {
                             { step: '03', title: 'Convert & Download', desc: 'Get your converted files instantly, individually or as a ZIP.' }
                         ].map((item, idx) => (
                             <div key={idx} className="relative z-10">
-                                <div className="bg-white p-8 rounded-2xl shadow-sm text-center h-full">
-                                    <span className="text-6xl font-bold text-gray-100 absolute top-4 right-4 select-none -z-10">{item.step}</span>
+                                <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-200 text-center h-full flex flex-col items-center">
+                                    <div className="w-12 h-12 bg-black text-white rounded-full flex items-center justify-center font-bold text-xl mb-6 shadow-md">
+                                        {item.step}
+                                    </div>
                                     <h3 className="text-xl font-bold text-gray-900 mb-4">{item.title}</h3>
                                     <p className="text-gray-600">{item.desc}</p>
                                 </div>
@@ -68,13 +69,13 @@ const Home = () => {
 
             {/* CTA Section */}
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="bg-gradient-to-r from-primary-600 to-secondary-600 rounded-3xl p-12 text-center text-white shadow-xl">
+                <div className="bg-gray-900 rounded-3xl p-12 text-center text-white shadow-xl">
                     <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to convert your images?</h2>
-                    <p className="text-primary-100 text-lg mb-8 max-w-2xl mx-auto">
+                    <p className="text-gray-400 text-lg mb-8 max-w-2xl mx-auto">
                         No registration required. Unlimited conversions. 100% Free.
                     </p>
                     <Link to="/converter">
-                        <button className="bg-white text-primary-600 px-8 py-4 rounded-xl font-bold text-lg hover:bg-gray-50 transition-colors shadow-lg">
+                        <button className="bg-white text-black border border-black px-8 py-4 rounded-xl font-bold text-lg hover:bg-gray-100 transition-colors shadow-lg">
                             Start Converting Now
                         </button>
                     </Link>

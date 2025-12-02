@@ -13,10 +13,10 @@ const Button = ({
     const baseStyles = "inline-flex items-center justify-center rounded-lg font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed";
 
     const variants = {
-        primary: "bg-gradient-to-r from-primary-500 to-secondary-500 text-white shadow-md hover:shadow-lg hover:scale-[1.02] focus:ring-primary-500",
-        secondary: "bg-white text-primary-600 border-2 border-primary-300 hover:bg-primary-50 focus:ring-primary-500",
-        danger: "bg-error-500 text-white hover:bg-error-600 focus:ring-error-500",
-        ghost: "bg-transparent text-gray-600 hover:bg-gray-100 focus:ring-gray-500"
+        primary: "bg-black text-white shadow-md hover:bg-gray-900 hover:shadow-lg hover:scale-[1.02] focus:ring-gray-900",
+        secondary: "bg-white text-black border-2 border-gray-300 hover:bg-gray-50 hover:border-gray-400 focus:ring-gray-900",
+        danger: "bg-gray-900 text-white hover:bg-black focus:ring-gray-900",
+        ghost: "bg-transparent text-gray-700 hover:bg-gray-100 focus:ring-gray-500"
     };
 
     const sizes = {

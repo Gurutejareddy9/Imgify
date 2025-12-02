@@ -3,9 +3,77 @@
  * Handles client-side image conversion using Canvas API
  */
 
+import { imageToPDF, multipleImagesToPDF, extractImagesFromPDF } from './pdfConverter';
+
 // Main conversion function
 export async function convertImage(file, targetFormat, settings = {}) {
     try {
+        // Check if source is PDF
+        if (file.type === 'application/pdf') {
+            if (targetFormat === 'pdf') {
+                // PDF to PDF (just return original)
+                return {
+                    blob: file,
+                    extension: 'pdf',
+                    width: 0, // Unknown without parsing
+                    height: 0,
+                    size: file.size,
+                    metadata: {
+                        originalSize: file.size,
+                        compressedSize: file.size,
+                        compressionRatio: 0,
+                        format: 'pdf',
+                    },
+                };
+            } else {
+                // PDF to Image - extract first page
+                const images = await extractImagesFromPDF(file);
+                if (images.length === 0) {
+                    throw new Error('No images found in PDF');
+                }
+
+                // Return first page as image
+                return {
+                    blob: images[0].blob,
+                    extension: targetFormat,
+                    width: images[0].width,
+                    height: images[0].height,
+                    size: images[0].blob.size,
+                    metadata: {
+                        originalSize: file.size,
+                        compressedSize: images[0].blob.size,
+                        compressionRatio: ((file.size - images[0].blob.size) / file.size) * 100,
+                        originalDimensions: { width: images[0].width, height: images[0].height },
+                        newDimensions: { width: images[0].width, height: images[0].height },
+                        format: targetFormat,
+                        extractedFromPDF: true,
+                        pdfPage: 1,
+                    },
+                };
+            }
+        }
+
+        // Check if target is PDF
+        if (targetFormat === 'pdf') {
+            const pdfBlob = await imageToPDF(file, settings);
+
+            return {
+                blob: pdfBlob,
+                extension: 'pdf',
+                width: 0, // PDF doesn't have single pixel dimensions
+                height: 0,
+                size: pdfBlob.size,
+                metadata: {
+                    originalSize: file.size,
+                    compressedSize: pdfBlob.size,
+                    compressionRatio: 0,
+                    format: 'pdf',
+                    pageSize: settings.pageSize || 'a4',
+                    orientation: settings.orientation || 'portrait',
+                },
+            };
+        }
+
         const { canvas, ctx, width, height } = await loadImageToCanvas(file);
         let blob;
         let extension = targetFormat;
@@ -46,6 +114,46 @@ export async function convertImage(file, targetFormat, settings = {}) {
     } catch (error) {
         console.error('Conversion failed:', error);
         throw error;
+    }
+}
+
+// Add batch PDF conversion function:
+export async function convertBatchToPDF(files, settings) {
+    if (settings.multiPage) {
+        // Create single multi-page PDF
+        const pdfBlob = await multipleImagesToPDF(files, settings);
+
+        return [{
+            blob: pdfBlob,
+            extension: 'pdf',
+            filename: 'converted-images.pdf',
+            size: pdfBlob.size,
+            metadata: {
+                originalSize: files.reduce((sum, f) => sum + f.size, 0),
+                compressedSize: pdfBlob.size,
+                format: 'pdf',
+                pageCount: files.length,
+                multiPage: true,
+            },
+        }];
+    } else {
+        // Create separate PDF for each image
+        const results = [];
+        for (const file of files) {
+            const pdfBlob = await imageToPDF(file, settings);
+            results.push({
+                blob: pdfBlob,
+                extension: 'pdf',
+                filename: file.name.replace(/\.[^.]+$/, '.pdf'),
+                size: pdfBlob.size,
+                metadata: {
+                    originalSize: file.size,
+                    compressedSize: pdfBlob.size,
+                    format: 'pdf',
+                },
+            });
+        }
+        return results;
     }
 }
 
