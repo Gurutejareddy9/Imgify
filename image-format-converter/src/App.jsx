@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import Converter from './pages/Converter';
 
 import Compress from './pages/Compress';
+import Resize from './pages/Resize';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/converter" element={<Converter />} />
             <Route path="/compress" element={<Compress />} />
+            <Route path="/resize" element={<Resize />} />
           </Routes>
         </main>
         <Footer />

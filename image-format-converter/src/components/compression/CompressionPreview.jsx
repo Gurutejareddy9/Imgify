@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Download, X, Loader, CheckCircle, AlertCircle } from 'lucide-react';
+import { Download, X, Loader, CheckCircle, AlertCircle, FileText } from 'lucide-react';
 import { formatFileSize, calculateSavings } from '../../utils/imageCompression';
 
 export default function CompressionPreview({
@@ -55,6 +55,12 @@ export default function CompressionPreview({
                             <AlertCircle className="w-8 h-8 text-white mx-auto mb-2" />
                             <p className="text-white text-sm">{error}</p>
                         </div>
+                    </div>
+                )}
+                {file.type === 'application/pdf' && (
+                    <div className="absolute bottom-2 left-2 bg-black text-white px-2 py-1 rounded text-xs font-medium flex items-center gap-1">
+                        <FileText className="w-3 h-3" />
+                        PDF
                     </div>
                 )}
             </div>
