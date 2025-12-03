@@ -172,7 +172,8 @@ export async function multipleImagesToPDF(files, options = {}) {
  * @param {File} file - PDF file
  * @returns {Promise<Array>} Array of image blobs
  */
-export async function extractImagesFromPDF(file) {
+export async function extractImagesFromPDF(file, options = {}) {
+    const { scale = 1.5 } = options;
     try {
         const arrayBuffer = await file.arrayBuffer();
         const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
@@ -180,7 +181,7 @@ export async function extractImagesFromPDF(file) {
 
         for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
             const page = await pdf.getPage(pageNum);
-            const viewport = page.getViewport({ scale: 2.0 });
+            const viewport = page.getViewport({ scale });
 
             // Create canvas
             const canvas = document.createElement('canvas');

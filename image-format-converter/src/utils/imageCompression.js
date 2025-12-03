@@ -4,7 +4,97 @@
  * @param {Object} options - Compression options
  * @returns {Promise<Object>} Compressed image data with metadata
  */
+import { extractImagesFromPDF } from './pdfConverter';
+
+/**
+ * Compress a single image file
+ * @param {File} file - Original image file
+ * @param {Object} options - Compression options
+ * @returns {Promise<Object>} Compressed image data with metadata
+ */
 export async function compressImage(file, options = {}) {
+    // Check if file is PDF
+    // Check if file is PDF
+    if (file.type === 'application/pdf') {
+        try {
+            // Extract images from PDF with lower scale for better compression
+            // Use scale 1.0 to avoid upscaling which increases file size
+            const images = await extractImagesFromPDF(file, { scale: 1.0 });
+
+            if (images.length === 0) {
+                throw new Error('No images found in PDF');
+            }
+
+            // Compress first page/image
+            const firstImage = images[0];
+
+            // Calculate dimensions with resizing if needed
+            let width = firstImage.width;
+            let height = firstImage.height;
+            const { maxWidth, maxHeight } = options;
+
+            if (maxWidth && width > maxWidth) {
+                height = (height * maxWidth) / width;
+                width = maxWidth;
+            }
+
+            if (maxHeight && height > maxHeight) {
+                width = (width * maxHeight) / height;
+                height = maxHeight;
+            }
+
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+
+            const ctx = canvas.getContext('2d');
+
+            // Enable image smoothing
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = 'high';
+
+            const img = new Image();
+            img.src = URL.createObjectURL(firstImage.blob);
+
+            await new Promise((resolve) => {
+                img.onload = () => {
+                    ctx.drawImage(img, 0, 0, width, height);
+                    resolve();
+                };
+            });
+
+            // Convert to compressed blob
+            const compressedBlob = await new Promise((resolve) => {
+                canvas.toBlob(
+                    (blob) => resolve(blob),
+                    `image/${options.outputFormat || 'jpeg'}`,
+                    options.quality || 0.8
+                );
+            });
+
+            return {
+                blob: compressedBlob,
+                file: new File([compressedBlob], file.name.replace('.pdf', '.jpg'), {
+                    type: 'image/jpeg',
+                }),
+                metadata: {
+                    originalSize: file.size,
+                    compressedSize: compressedBlob.size,
+                    compressionRatio: ((file.size - compressedBlob.size) / file.size) * 100,
+                    originalDimensions: { width: firstImage.width, height: firstImage.height },
+                    newDimensions: { width, height },
+                    quality: options.quality || 0.8,
+                    format: options.outputFormat || 'jpeg',
+                    sourcePDF: true,
+                    pdfPages: images.length,
+                },
+            };
+        } catch (error) {
+            console.error('Error compressing PDF:', error);
+            throw error;
+        }
+    }
+
     const {
         quality = 0.8,          // 0-1 (80% default)
         maxWidth = null,        // Max width (null = no limit)

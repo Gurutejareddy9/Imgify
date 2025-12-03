@@ -38,6 +38,7 @@ export default function Compress() {
         onDrop,
         accept: {
             'image/*': ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.bmp'],
+            'application/pdf': ['.pdf']
         },
         multiple: true,
         maxSize: 50 * 1024 * 1024, // 50MB
@@ -110,7 +111,7 @@ export default function Compress() {
                         </p>
                         <p className="text-gray-600 mb-4">or click to browse files</p>
                         <p className="text-sm text-gray-500">
-                            Supports JPG, PNG, GIF, WEBP, BMP (max 50MB per file)
+                            Supports JPG, PNG, GIF, WEBP, BMP, PDF (max 50MB per file)
                         </p>
                     </div>
                 )}

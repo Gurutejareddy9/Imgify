@@ -7,7 +7,8 @@ const Navigation = ({ mobile = false, onItemClick }) => {
     const links = [
         { name: 'Home', path: '/' },
         { name: 'Converter', path: '/converter' },
-        { name: 'Compress', path: '/compress' }
+        { name: 'Compress', path: '/compress' },
+        { name: 'Resize', path: '/resize' }
     ];
 
     const baseStyles = mobile
